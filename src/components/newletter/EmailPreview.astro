@@ -1,0 +1,46 @@
+---
+// src/components/newsletter/EmailPreview.astro
+---
+
+<div class="preview-panel">
+  <h2>👁️ Vista Previa del Email</h2>
+  <div class="preview-container">
+    <div id="email-preview" class="email-preview">
+      <!-- Vista previa generada por JavaScript -->
+      <div style="padding: 40px; text-align: center; color: #7f8c8d;">
+        Completa el formulario para ver la vista previa...
+      </div>
+    </div>
+  </div>
+  
+  <div class="preview-actions">
+    <button class="btn btn-primary" onclick="copyToClipboard()">
+      📋 Copiar
+    </button>
+  </div>
+</div>
+
+<style>
+  .preview-panel {
+    padding: 20px;
+  }
+
+  .preview-container {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background: #fafafa;
+    min-height: 500px;
+    overflow: auto;
+  }
+
+  .email-preview {
+    background: white;
+    border: 1px solid #e0e0e0;
+  }
+
+  .preview-actions {
+    margin-top: 20px;
+    text-align: center;
+  }
+</style>
