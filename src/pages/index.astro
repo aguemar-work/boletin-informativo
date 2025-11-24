@@ -1,85 +1,84 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import NewsletterForm from "../components/newletter/NewsletterForm.astro"
+import Layout from "../layouts/Layout.astro";
+import NewsletterForm from "../components/newsletter/NewsletterForm.astro";
 ---
+
 <Layout>
-	<div class="container">
+	<header class="main-header">
+		<div class="header-content">
+			<div class="brand">
+				<span class="brand-icon">⚡</span>
+				<h1>Generador de Boletines</h1>
+			</div>
+			<p class="subtitle">
+				Crea comunicaciones profesionales en segundos
+			</p>
+		</div>
+	</header>
+
+	<main class="container">
 		<NewsletterForm />
-	</div>
+	</main>
 </Layout>
 
 <style>
-	.container {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 20px;
-		min-height: 100vh;
-		background: linear-gradient(135deg, rgb(142, 288, 4) 0%, rgb(100, 200, 0) 100%);
-	}
-
-	.header {
-		text-align: center;
-		margin-bottom: 30px;
-		color: white;
+	.main-header {
+		background-color: var(--color-surface);
+		border-bottom: 1px solid var(--color-border);
+		padding: var(--spacing-lg) 0;
+		margin-bottom: var(--spacing-xl);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.header-content {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 0 var(--spacing-lg);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.brand {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		gap: 20px;
-		flex-wrap: wrap;
+		gap: var(--spacing-sm);
 	}
 
-	.logo {
-		height: 60px;
-		width: auto;
-		filter: brightness(0) invert(1);
+	.brand-icon {
+		font-size: 1.5rem;
+		color: var(--color-primary);
 	}
 
-	.header-text {
-		text-align: left;
-	}
-
-	.header h1 {
-		font-size: 2.5rem;
-		margin-bottom: 10px;
-		text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	h1 {
+		font-size: 1.5rem;
 		font-weight: 700;
+		color: var(--color-text-main);
+		margin: 0;
 	}
 
-	.header p {
-		font-size: 1.2rem;
-		opacity: 0.9;
+	.subtitle {
+		color: var(--color-text-muted);
 		margin: 0;
-		font-weight: 400;
+		font-size: 0.95rem;
+	}
+
+	.container {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 0 var(--spacing-lg) var(--spacing-xl);
+		min-height: calc(100vh - 200px);
 	}
 
 	@media (max-width: 768px) {
-		.container {
-			padding: 10px;
-		}
-
 		.header-content {
 			flex-direction: column;
-			text-align: center;
+			align-items: flex-start;
+			gap: var(--spacing-sm);
 		}
 
-		.header-text {
-			text-align: center;
-		}
-
-		.logo {
-			height: 50px;
-		}
-
-		.header h1 {
-			font-size: 2rem;
-		}
-
-		.header p {
-			font-size: 1rem;
+		.container {
+			padding: 0 var(--spacing-md) var(--spacing-lg);
 		}
 	}
 </style>
