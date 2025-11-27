@@ -26,27 +26,8 @@ interface BlockData {
       <form id="newsletter-form">
         <div class="form-section">
           <h3 class="section-title">
-            <span class="icon">📧</span> Información incial
+            <span class="icon">📧</span> Información inicial
           </h3>
-          <div class="form-group">
-            <label for="subject">
-              Título del Boletín
-              <span class="required" aria-label="Campo obligatorio">*</span>
-            </label>
-            <div class="input-group">
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                placeholder="Ej: Boletín Informativo del mes del año"
-                value={initialContent.subject}
-                required
-                aria-describedby="subject-help"
-                maxlength="160"
-                autocomplete="off"
-              />
-            </div>
-          </div>
 
           <div class="form-row">
             <div class="form-group">
@@ -74,6 +55,41 @@ interface BlockData {
                   autocomplete="off"
                 />
               </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">
+              Título del Boletín
+              <span class="required" aria-label="Campo obligatorio">*</span>
+            </label>
+            <div class="input-group">
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                placeholder="Ej: Boletín Informativo del mes del año"
+                value={initialContent.subject}
+                required
+                aria-describedby="subject-help"
+                maxlength="160"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="mainImageUrl">URL de Imagen Principal</label>
+            <div class="input-group">
+              <input
+                type="url"
+                id="mainImageUrl"
+                name="mainImageUrl"
+                placeholder="https://.../banner.jpg"
+                inputmode="url"
+                pattern="https?://.+"
+                autocomplete="off"
+              />
             </div>
           </div>
         </div>
@@ -145,7 +161,7 @@ interface BlockData {
     // Configuración de la plantilla
     const template = {
       headerBg: "#4CAF50",
-      font: "Inter, system-ui, -apple-system, sans-serif",
+      font: "Arial, Helvetica, sans-serif",
       buttonBg: "#43A047",
       textColor: "#333333",
       accentColor: "#2E7D32",
@@ -154,7 +170,7 @@ interface BlockData {
     // Función principal de actualización
     function updatePreview() {
       const form = document.getElementById(
-        "newsletter-form"
+        "newsletter-form",
       ) as HTMLFormElement;
       if (!form) return;
 
@@ -163,27 +179,24 @@ interface BlockData {
 
       // Recopilar bloques
       const blockNodes = Array.from(
-        document.querySelectorAll(".block-item")
+        document.querySelectorAll(".block-item"),
       ) as HTMLElement[];
       const blocks = blockNodes
         .map((node) => {
           const titleInput = node.querySelector(
-            'input[name="blockTitle"]'
+            'input[name="blockTitle"]',
           ) as HTMLInputElement;
           const descInput = node.querySelector(
-            'textarea[name="blockDescription"]'
+            'textarea[name="blockDescription"]',
           ) as HTMLTextAreaElement;
           const descEl = node.querySelector(
-            '[data-role="blockDescription"]'
+            '[data-role="blockDescription"]',
           ) as HTMLElement | null;
-          const imageInput = node.querySelector(
-            'input[name="blockImageUrl"]'
-          ) as HTMLInputElement;
           const linkInput = node.querySelector(
-            'input[name="blockLink"]'
+            'input[name="blockLink"]',
           ) as HTMLInputElement;
           const linkTitleInput = node.querySelector(
-            'input[name="blockLinkTitle"]'
+            'input[name="blockLinkTitle"]',
           ) as HTMLInputElement;
 
           const titleDisplay = node.querySelector(".block-title-text");
@@ -196,12 +209,11 @@ interface BlockData {
             description: descEl
               ? sanitizeRichText(descEl.innerHTML)
               : descInput?.value || "",
-            imageUrl: imageInput?.value?.trim() || "",
             linkTitle: linkTitleInput?.value?.trim() || "",
             link: linkInput?.value?.trim() || "",
           };
         })
-        .filter((b) => b.subtitle || b.description || b.link || b.imageUrl); // Incluir si tiene algo de contenido
+        .filter((b) => b.subtitle || b.description || b.link); // Incluir si tiene algo de contenido
 
       content.blocks = blocks;
 
@@ -227,30 +239,33 @@ interface BlockData {
           ? `
       <tr>
         <td style="padding-top: 20px;">
-          <h3 style="margin: 0 0 15px 0; font-size: 18px; color: #2E7D32; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">Temas Destacados</h3>
+          <h3 style="margin: 0 0 15px 0; font-family: ${template.font}; font-size: 18px; color: #2E7D32; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">Temas Destacados</h3>
           <table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-family: ${template.font};">
             ${content.blocks
               .map(
                 (b: any) => `
               <tr>
                 <td style="padding: 15px 0; border-bottom: 1px solid #EEEEEE;">
-                  <strong style="color: #1a1a1a; font-size: 16px; display: block; margin-bottom: 8px;">${b.subtitle || ""}</strong>
-                  ${b.imageUrl ? `<img src="${b.imageUrl}" alt="${b.subtitle || "Imagen"}" style="max-width: 100%; border-radius: 4px; display: block; margin-bottom: 10px;" />` : ""}
-                  ${b.description ? `<div style="color: ${template.textColor}; line-height: 1.6; margin-bottom: 10px;">${processContent(b.description)}</div>` : ""}
+                  <strong style="color: #1a1a1a; font-family: ${template.font}; font-size: 16px; display: block; margin-bottom: 8px;">${b.subtitle || ""}</strong>
+                  ${b.description ? `<div style="color: ${template.textColor}; font-family: ${template.font}; line-height: 1.6; margin-bottom: 10px;">${processContent(b.description)}</div>` : ""}
                   ${
                     b.link
                       ? `
-                    <div>
-                      <a href="${b.link}" target="_blank" rel="noopener noreferrer" style="color: white; background-color: ${template.buttonBg}; padding: 8px 16px; text-decoration: none; border-radius: 4px; font-size: 14px; display: inline-block; font-weight: bold;">
-                        ${b.linkTitle || "Leer más →"}
-                      </a>
-                    </div>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background-color: ${template.buttonBg}; border-radius: 4px; padding: 8px 16px;">
+                          <a href="${b.link}" target="_blank" rel="noopener noreferrer" style="color: white; font-family: ${template.font}; text-decoration: none; font-size: 14px; display: block; font-weight: bold;">
+                            ${b.linkTitle || "Leer más →"}
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
                   `
                       : ""
                   }
                 </td>
               </tr>
-            `
+            `,
               )
               .join("")}
           </table>
@@ -259,87 +274,117 @@ interface BlockData {
     `
           : "";
 
-      // SVG Logo (simplificado para el ejemplo, idealmente usar imagen hosteada)
-      const logoSvg = `<svg width="150" height="50" viewBox="0 0 216 90" xmlns="http://www.w3.org/2000/svg">
-      <!-- Logo content here - same as before but simplified for brevity in this string -->
-      <rect width="100%" height="100%" fill="transparent"/>
-      <text x="10" y="60" font-family="Arial" font-size="40" fill="#4CAF50" font-weight="bold">QWASI</text>
-    </svg>`;
-
       return `
-      <table cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 600px; margin: 0 auto; font-family: ${template.font}; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-        <!-- Header -->
-        <tr>
-          <td style="padding: 25px 30px; background-color: #ffffff; border-bottom: 3px solid ${template.headerBg};">
-            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>${content.subject || "Boletín"}</title>
+        <style type="text/css">
+          body { margin: 0; padding: 0; min-width: 100%; font-family: ${template.font}; }
+          table { border-collapse: collapse; }
+          td { font-family: ${template.font}; }
+        </style>
+      </head>
+      <body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4;">
+          <tr>
+            <td align="center" style="padding: 20px 0;">
+              <table cellpadding="0" cellspacing="0" border="0" width="600" style="max-width: 600px; width: 100%; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+                <!-- Header -->
                 <tr>
-                    <td align="left" style="width: 50%; vertical-align: middle;">
-                        <!-- Logo Placeholder -->
-                        <div style="font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; color: ${template.headerBg};">
-                            QWASI
-                        </div>
-                    </td>
-                    <td align="right" style="width: 50%; vertical-align: middle;">
-                        <h1 style="margin: 0; color: ${template.accentColor}; font-size: 24px; font-weight: 800;">Boletín Legal</h1>                       
-                    </td>
+                  <td style="padding: 25px 30px; background-color: #ffffff; border-bottom: 3px solid ${template.headerBg};">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td align="left" style="width: 50%; vertical-align: middle;">
+                                <div style="font-family: ${template.font}; font-size: 24px; font-weight: bold; color: ${template.headerBg};">
+                                    QWASI
+                                </div>
+                            </td>
+                            <td align="right" style="width: 50%; vertical-align: middle;">
+                                <h1 style="margin: 0; font-family: ${template.font}; color: ${template.accentColor}; font-size: 24px; font-weight: 800;">Boletín Legal</h1>                       
+                            </td>
+                        </tr>
+                    </table>
+                  </td>
                 </tr>
-            </table>
-          </td>
-        </tr>
-        
-        <!-- Main Content -->
-        <tr>
-          <td style="padding: 30px; line-height: 1.6; color: ${template.textColor};">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-              <!-- Subject/Title if needed in body -->
-              ${
-                content.subject
-                  ? `
-              <tr>
-                <td style="padding-bottom: 20px;">
-                    <h2 style="margin: 0; color: #333; font-size: 22px;">${content.subject}</h2>
-                </td>
-              </tr>`
-                  : ""
-              }
+                
+                <!-- Main Content -->
+                <tr>
+                  <td style="padding: 30px; line-height: 1.6; color: ${template.textColor}; font-family: ${template.font};">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <!-- Salutation -->
+                      <tr>
+                        <td style="padding-bottom: 20px;">
+                          <div style="font-size: 16px; font-family: ${template.font};">${content.salutation || "Estimados,"}</div>
+                        </td>
+                      </tr>
 
-              <!-- Salutation -->
-              <tr>
-                <td style="padding-bottom: 20px;">
-                  <div style="font-size: 16px;">${content.salutation || "Estimados,"}</div>
-                </td>
-              </tr>
-              
-              <!-- Blocks -->
-              ${blocksSection}
-              
-              <!-- Closing -->
-              <tr>
-                <td style="padding-top: 40px; border-top: 1px solid #eee; margin-top: 20px;">
-                  <div style="color: #666;">${content.closing || "Saludos cordiales,"}</div>
-                  <strong style="color: ${template.accentColor}; display: block; margin-top: 5px;">Equipo Legal QWASI</strong>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        
-        <!-- Footer -->
-        <tr>
-          <td style="background: #333333; padding: 30px; text-align: center; color: #bbbbbb; font-size: 13px;">
-            <p style="margin: 0 0 10px 0;">
-                <a href="mailto:legal@quwasi.com" style="color: white; text-decoration: none; margin: 0 10px;">legal@quwasi.com</a> | 
-                <a href="tel:+51943440165" style="color: white; text-decoration: none; margin: 0 10px;">+51 943 440 165</a>
-            </p>
-            <p style="margin: 0;">
-                <a href="https://www.qwasi.com" style="color: white; text-decoration: none;">www.qwasi.com</a>
-            </p>
-            <div style="opacity: 0.6; margin-top: 15px;">
-              © ${new Date().getFullYear()} QWASI. Todos los derechos reservados.
-            </div>
-          </td>
-        </tr>
-      </table>
+                      <!-- Closing (Despedida) - User asked for Saludo then Despedida then Title then Image -->
+                      <tr>
+                        <td style="padding-bottom: 20px;">
+                           <div style="font-size: 16px; font-family: ${template.font};">${content.closing || "Saludos cordiales,"}</div>
+                        </td>
+                      </tr>
+
+                      <!-- Subject/Title -->
+                      ${
+                        content.subject
+                          ? `
+                      <tr>
+                        <td style="padding-bottom: 20px;">
+                            <h2 style="margin: 0; color: #333; font-family: ${template.font}; font-size: 22px;">${content.subject}</h2>
+                        </td>
+                      </tr>`
+                          : ""
+                      }
+
+                      <!-- Main Image -->
+                      ${
+                        content.mainImageUrl
+                          ? `
+                      <tr>
+                        <td style="padding-bottom: 20px;">
+                          <img src="${content.mainImageUrl}" alt="Imagen Principal" style="width: 100%; max-width: 100%; height: auto; display: block; border-radius: 4px;" />
+                        </td>
+                      </tr>`
+                          : ""
+                      }
+                      
+                      <!-- Blocks -->
+                      ${blocksSection}
+                      
+                      <!-- Signature -->
+                      <tr>
+                        <td style="padding-top: 40px; border-top: 1px solid #eee; margin-top: 20px;">
+                          <strong style="color: ${template.accentColor}; font-family: ${template.font}; display: block; margin-top: 5px;">Equipo Legal QWASI</strong>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                
+                <!-- Footer -->
+                <tr>
+                  <td style="background: #333333; padding: 30px; text-align: center; color: #bbbbbb; font-size: 13px; font-family: ${template.font};">
+                    <p style="margin: 0 0 10px 0;">
+                        <a href="mailto:legal@quwasi.com" style="color: white; text-decoration: none; margin: 0 10px;">legal@quwasi.com</a> | 
+                        <a href="tel:+51943440165" style="color: white; text-decoration: none; margin: 0 10px;">+51 943 440 165</a>
+                    </p>
+                    <p style="margin: 0;">
+                        <a href="https://www.qwasi.com" style="color: white; text-decoration: none;">www.qwasi.com</a>
+                    </p>
+                    <div style="opacity: 0.6; margin-top: 15px;">
+                      © ${new Date().getFullYear()} QWASI. Todos los derechos reservados.
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+      </html>
     `;
     }
 
@@ -364,7 +409,7 @@ interface BlockData {
       wrapper.id = `block-${id}`;
       wrapper.setAttribute(
         "style",
-        "background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: none; overflow: hidden; margin-bottom: var(--spacing-md); transition: border-color .2s, transform .2s, opacity .2s;"
+        "background: transparent; border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: none; overflow: hidden; margin-bottom: var(--spacing-md); transition: border-color .2s, transform .2s, opacity .2s;",
       );
 
       wrapper.insertAdjacentHTML(
@@ -386,12 +431,6 @@ interface BlockData {
             </div>
         </div>
         <div class="form-group" style="margin: 0 0 var(--spacing-md) 0;">
-            <label>URL de Imagen</label>
-            <div class="input-group" style="display:flex; align-items:center; border:2px solid var(--color-border); border-radius: var(--radius-sm); background: transparent;">
-              <input type="url" name="blockImageUrl" placeholder="https://.../imagen.jpg" inputmode="url" pattern="https?://.+" style="border:none; outline:none; padding:12px; flex:1; background: white;" />
-            </div>
-        </div>
-        <div class="form-group" style="margin: 0 0 var(--spacing-md) 0;">
             <label>Descripción</label>
             <div contenteditable="true" data-role="blockDescription" style="border:1px solid var(--color-border); border-radius: var(--radius-sm); padding:10px; background: white; outline: none; min-height: 80px; line-height: 1.5;"></div>
         </div>
@@ -410,7 +449,7 @@ interface BlockData {
             </div>
         </div>
       </div>
-    `
+    `,
       );
 
       container.appendChild(wrapper);
@@ -420,7 +459,7 @@ interface BlockData {
       }, 150);
 
       const headerEl = wrapper.querySelector(
-        ".block-header"
+        ".block-header",
       ) as HTMLElement | null;
       if (headerEl) {
         headerEl.addEventListener("click", (e) => {
@@ -432,13 +471,13 @@ interface BlockData {
       }
 
       const moveUpBtn = wrapper.querySelector(
-        '[data-action="move-up"]'
+        '[data-action="move-up"]',
       ) as HTMLElement | null;
       const moveDownBtn = wrapper.querySelector(
-        '[data-action="move-down"]'
+        '[data-action="move-down"]',
       ) as HTMLElement | null;
       const deleteBtn = wrapper.querySelector(
-        '[data-action="delete"]'
+        '[data-action="delete"]',
       ) as HTMLElement | null;
       moveUpBtn?.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -454,11 +493,11 @@ interface BlockData {
       });
 
       const inputs = wrapper.querySelectorAll(
-        "input, textarea, [data-role='blockDescription']"
+        "input, textarea, [data-role='blockDescription']",
       );
       inputs.forEach((inp) => inp.addEventListener("input", updatePreview));
       const urlInput = wrapper.querySelector(
-        'input[name="blockLink"]'
+        'input[name="blockLink"]',
       ) as HTMLInputElement | null;
       if (urlInput) {
         urlInput.addEventListener("input", () => {
@@ -502,31 +541,31 @@ interface BlockData {
     async function copyToClipboard() {
       try {
         const form = document.getElementById(
-          "newsletter-form"
+          "newsletter-form",
         ) as HTMLFormElement;
         const formData = new FormData(form);
         const content: any = Object.fromEntries(formData);
 
         // Reconstruir bloques para el contenido
         const blockNodes = Array.from(
-          document.querySelectorAll(".block-item")
+          document.querySelectorAll(".block-item"),
         ) as HTMLElement[];
         const blocks = blockNodes
           .map((node) => {
             const titleInput = node.querySelector(
-              'input[name="blockTitle"]'
+              'input[name="blockTitle"]',
             ) as HTMLInputElement;
             const descInput = node.querySelector(
-              'textarea[name="blockDescription"]'
+              'textarea[name="blockDescription"]',
             ) as HTMLTextAreaElement;
             const descEl = node.querySelector(
-              '[data-role="blockDescription"]'
+              '[data-role="blockDescription"]',
             ) as HTMLElement | null;
             const linkInput = node.querySelector(
-              'input[name="blockLink"]'
+              'input[name="blockLink"]',
             ) as HTMLInputElement;
             const linkTitleInput = node.querySelector(
-              'input[name="blockLinkTitle"]'
+              'input[name="blockLinkTitle"]',
             ) as HTMLInputElement;
             return {
               subtitle: titleInput?.value?.trim() || "",
@@ -593,7 +632,7 @@ interface BlockData {
         confirm("¿Borrar todo el contenido? Esta acción no se puede deshacer.")
       ) {
         const form = document.getElementById(
-          "newsletter-form"
+          "newsletter-form",
         ) as HTMLFormElement;
         form?.reset();
         document.getElementById("blocks-container")!.innerHTML = "";
