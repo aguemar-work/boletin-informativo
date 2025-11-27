@@ -160,7 +160,7 @@ interface BlockData {
   <script>
     // Configuración de la plantilla
     const template = {
-      headerBg: "#4CAF50",
+      headerBg: "#1B5E20",
       font: "Arial, Helvetica, sans-serif",
       buttonBg: "#43A047",
       textColor: "#333333",
@@ -240,18 +240,18 @@ interface BlockData {
       <tr>
         <td style="padding-top: 20px;">
           <h3 style="margin: 0 0 15px 0; font-family: ${template.font}; font-size: 18px; color: #2E7D32; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">Temas Destacados</h3>
-          <table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-family: ${template.font};">
+          <table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-family: ${template.font}; border-collapse: collapse;">
             ${content.blocks
               .map(
                 (b: any) => `
               <tr>
-                <td style="padding: 15px 0; border-bottom: 1px solid #EEEEEE;">
+                <td style="padding: 15px 0; border-bottom: 1px solid #EEEEEE; font-family: ${template.font};">
                   <strong style="color: #1a1a1a; font-family: ${template.font}; font-size: 16px; display: block; margin-bottom: 8px;">${b.subtitle || ""}</strong>
                   ${b.description ? `<div style="color: ${template.textColor}; font-family: ${template.font}; line-height: 1.6; margin-bottom: 10px;">${processContent(b.description)}</div>` : ""}
                   ${
                     b.link
                       ? `
-                    <table cellpadding="0" cellspacing="0" border="0">
+                    <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
                       <tr>
                         <td style="background-color: ${template.buttonBg}; border-radius: 4px; padding: 8px 16px;">
                           <a href="${b.link}" target="_blank" rel="noopener noreferrer" style="color: white; font-family: ${template.font}; text-decoration: none; font-size: 14px; display: block; font-weight: bold;">
@@ -287,22 +287,20 @@ interface BlockData {
         </style>
       </head>
       <body style="margin: 0; padding: 0; background-color: #f4f4f4;">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; border-collapse: collapse;">
           <tr>
             <td align="center" style="padding: 20px 0;">
-              <table cellpadding="0" cellspacing="0" border="0" width="600" style="max-width: 600px; width: 100%; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+              <table cellpadding="0" cellspacing="0" border="0" width="600" style="max-width: 600px; width: 100%; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.05); border-collapse: collapse;">
                 <!-- Header -->
                 <tr>
-                  <td style="padding: 25px 30px; background-color: #ffffff; border-bottom: 3px solid ${template.headerBg};">
-                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <td style="padding: 25px 30px; background-color: ${template.headerBg}; border-bottom: 3px solid ${template.accentColor};">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
                         <tr>
                             <td align="left" style="width: 50%; vertical-align: middle;">
-                                <div style="font-family: ${template.font}; font-size: 24px; font-weight: bold; color: ${template.headerBg};">
-                                    QWASI
-                                </div>
+                                <img src="https://www.quwasi.com/wp-content/uploads/2020/04/Logo-QWasi-BLANCO.png" alt="QWASI" style="max-width: 150px; height: auto; display: block;" />
                             </td>
                             <td align="right" style="width: 50%; vertical-align: middle;">
-                                <h1 style="margin: 0; font-family: ${template.font}; color: ${template.accentColor}; font-size: 24px; font-weight: 800;">Boletín Legal</h1>                       
+                                <h1 style="margin: 0; font-family: ${template.font}; color: #ffffff; font-size: 24px; font-weight: 800;">Boletín Legal</h1>                       
                             </td>
                         </tr>
                     </table>
@@ -312,18 +310,11 @@ interface BlockData {
                 <!-- Main Content -->
                 <tr>
                   <td style="padding: 30px; line-height: 1.6; color: ${template.textColor}; font-family: ${template.font};">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse: collapse;">
                       <!-- Salutation -->
                       <tr>
                         <td style="padding-bottom: 20px;">
-                          <div style="font-size: 16px; font-family: ${template.font};">${content.salutation || "Estimados,"}</div>
-                        </td>
-                      </tr>
-
-                      <!-- Closing (Despedida) - User asked for Saludo then Despedida then Title then Image -->
-                      <tr>
-                        <td style="padding-bottom: 20px;">
-                           <div style="font-size: 16px; font-family: ${template.font};">${content.closing || "Saludos cordiales,"}</div>
+                          <div style="font-size: 16px; font-family: ${template.font}; color: ${template.textColor};">${content.salutation || "Estimados,"}</div>
                         </td>
                       </tr>
 
@@ -333,7 +324,7 @@ interface BlockData {
                           ? `
                       <tr>
                         <td style="padding-bottom: 20px;">
-                            <h2 style="margin: 0; color: #333; font-family: ${template.font}; font-size: 22px;">${content.subject}</h2>
+                            <h2 style="margin: 0; color: #333333; font-family: ${template.font}; font-size: 22px;">${content.subject}</h2>
                         </td>
                       </tr>`
                           : ""
@@ -356,10 +347,16 @@ interface BlockData {
                       
                       <!-- Signature -->
                       <tr>
+                        <td style="padding-bottom: 20px;">
+                           <div style="font-size: 16px; font-family: ${template.font}; color: ${template.textColor};">${content.closing || "Saludos cordiales,"}</div>
+                        </td>
+                      </tr>
+                      <tr>
                         <td style="padding-top: 40px; border-top: 1px solid #eee; margin-top: 20px;">
                           <strong style="color: ${template.accentColor}; font-family: ${template.font}; display: block; margin-top: 5px;">Equipo Legal QWASI</strong>
                         </td>
                       </tr>
+                      
                     </table>
                   </td>
                 </tr>
@@ -706,9 +703,6 @@ interface BlockData {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-md);
     min-height: 120px;
     background: transparent;
   }
